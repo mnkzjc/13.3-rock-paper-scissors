@@ -1,15 +1,27 @@
 * {
-//  border: 1px dashed red;
+ // border: 1px dashed yellow;
   box-sizing: border-box;
 }
 body {
   text-align: center;
 }
 
+#welcome {
+	padding: 30px;
+}
+
+#infoLine {
+	padding-bottom: 10px;
+}
+
+#game {
+	padding-bottom: 20px;
+}
+
 button {
   display: inline-block;
   margin: 5px 0;
-  padding: 5px 20px;
+  padding: 10px 20px;
   border-radius: 5px;
   &:hover {
     cursor: pointer;
@@ -18,7 +30,7 @@ button {
 }
 
 h3 {
-  margin: 5px auto;
+  margin: 15px auto;
 }
 
 .flex-container {
@@ -40,4 +52,63 @@ header {
 
 .hide {
   visibility: hidden;
+}
+
+// modals
+.overlay {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.7);
+	
+	&.show {
+		display: block;
+	}
+}
+
+.modal {
+	display: none;
+	background: #fff;
+	min-width: 500px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate3d(-50%, -50%, 0);
+
+	&.show {
+		display: block;
+	}
+	
+	.close {
+		position: absolute;
+		right: 0;
+		top: 0;
+		padding: 5px;
+		color: #000;
+		text-decoration: none;
+	}
+  
+  header {
+		font-size: 20px;
+		line-height: 30px;
+		min-height: 30px;
+		font-weight: bold;
+		padding: 10px 30px;
+	}
+
+	.content {
+		min-height: 30px;
+		padding: 5px 30px;
+	}
+}
+
+// table
+thead {
+	border-bottom: 1px solid black;
+}
+table, th, td {
+	padding: 10px;
 }
