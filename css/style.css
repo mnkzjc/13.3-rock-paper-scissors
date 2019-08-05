@@ -1,117 +1,39 @@
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
-body {
-  text-align: center;
-}
+body { text-align: center; }
 
-#welcome {
-  padding: 30px;
-}
+#welcome { padding: 30px; }
 
-#infoLine {
-  padding-bottom: 10px;
-}
+#infoLine { height: 35px; }
 
-#game {
-  padding-bottom: 20px;
-}
+#game { padding-bottom: 20px; }
 
-button {
-  display: inline-block;
-  margin: 5px 0;
-  padding: 10px 20px;
-  border-radius: 5px;
-}
+button { display: inline-block; margin: 5px 0; padding: 10px 20px; border-radius: 5px; }
 
-button:hover {
-  cursor: pointer;
-  background-color: cyan;
-}
+button:hover { cursor: pointer; background-color: cyan; }
 
-h3 {
-  margin: 15px auto;
-}
+h3 { margin: 15px auto; }
 
-.flex-container {
-  display: -webkit-flex;
-  display: flex;
-  justify-content: center;
-}
+.flex-container { display: -ms-flexbox; display: flex; -ms-flex-pack: center; justify-content: center; }
 
-.output {
-  margin: 0 20px;
-  width: 250px;
-  height: 100px;
-}
+.output { margin: 0 20px; width: 250px; height: 100px; }
 
-header {
-  border-bottom: 1px solid #000;
-  margin-bottom: 5px;
-  padding: 5px;
-}
+header { border-bottom: 1px solid #000; margin-bottom: 5px; padding: 5px; }
 
-.hide {
-  visibility: hidden;
-}
+.overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); }
 
-.overlay {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.7);
-}
+.overlay.show { display: block; }
 
-.overlay.show {
-  display: block;
-}
+.modal { display: none; background: #fff; min-width: 500px; position: absolute; top: 50%; left: 50%; transform: translate3d(-50%, -50%, 0); }
 
-.modal {
-  display: none;
-  background: #fff;
-  min-width: 500px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate3d(-50%, -50%, 0);
-}
+.modal.show { display: block; }
 
-.modal.show {
-  display: block;
-}
+.modal .close { position: absolute; right: 0; top: 0; padding: 5px; color: #000; text-decoration: none; }
 
-.modal .close {
-  position: absolute;
-  right: 0;
-  top: 0;
-  padding: 5px;
-  color: #000;
-  text-decoration: none;
-}
+.modal header { font-size: 20px; line-height: 30px; min-height: 30px; font-weight: bold; padding: 10px 30px; }
 
-.modal header {
-  font-size: 20px;
-  line-height: 30px;
-  min-height: 30px;
-  font-weight: bold;
-  padding: 10px 30px;
-}
+.modal .content { min-height: 30px; padding: 5px 30px; }
 
-.modal .content {
-  min-height: 30px;
-  padding: 5px 30px;
-}
+thead { border-bottom: 1px solid black; }
 
-thead {
-  border-bottom: 1px solid black;
-}
-
-table, th, td {
-  padding: 10px;
-}
-
-/*# sourceMappingURL=style.css.map */
+table, th, td { padding: 10px; }

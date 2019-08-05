@@ -14,15 +14,13 @@
   <button id="start-btn">New Game</button>
 </div>
 
-<div class="hide" id="game">
-  <div id="infoLine">
-    <p></p>
-  </div>
+<div id="infoLine"></div>
 
+<div id="game">
   <h3>Choose your weapon:</h3>
-  <button id="rock" data-move="rock" class="player-move">Rock</button>
-  <button id="paper" data-move="paper" class="player-move">Paper</button>
-  <button id="scissors" data-move="scissors" class="player-move">Scissors</button>
+  <button id="rock" data-move="rock" class="player-move" disabled>Rock</button>
+  <button id="paper" data-move="paper" class="player-move" disabled>Paper</button>
+  <button id="scissors" data-move="scissors" class="player-move" disabled>Scissors</button>
 </div>
 
 <div class="flex-container">
@@ -62,7 +60,7 @@
             <th>Score</th>
           </tr>
         </thead>
-        <tbody id="tableStats"></tbody>
+        <tbody id="tableBody"></tbody>
       </table>
 		</div>
   </div>

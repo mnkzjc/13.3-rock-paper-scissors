@@ -1,27 +1,26 @@
 "use strict";
 
-// przyciski
-var startbtn = document.getElementById("start-btn");
-var moves = document.querySelectorAll('.player-move');
+// Buttons
+var startButton = document.getElementById("start-btn");
+var choiceButtons = document.querySelectorAll('.player-move');
 
-// div gry
-var game = document.getElementById("game");
-var infoLine = document.querySelector("#infoLine p");
+// Game elements
+var infoLine = document.querySelector("#infoLine");
 var endRound = document.getElementById("endRound");
 
-// modale
+// Modals
 var endgame = document.getElementById("modal-endgame");
 var overlay = document.querySelector('#modal-overlay');
 var modals = document.querySelectorAll('.modal');
 var closeButtons = document.querySelectorAll('.modal .close');
-var tableStats = document.getElementById("tableStats");
+var tableBody = document.getElementById("tableBody");
 
 
-
+// Game parameters
 var params = {
   scorePlayer: 0,
   scoreComp: 0,
-  scoreToWin: 0,
+  howManyRounds: 0,
   currentRound: 1,
   youPlayed: "",
   compPlayed: "",
@@ -33,15 +32,73 @@ var params = {
 
 
 
-// drukuje wyniki rundy
+// Game
+
+var disableGame = function(){
+  choiceButtons.forEach(function(element){
+    element.disabled = true;
+  });
+  params.isInProgress = false;
+}
+
+
+var enableGame = function(){
+  choiceButtons.forEach(function(element){
+    element.disabled = false;
+  });
+  params.isInProgress = true;
+}
+
+
+var reset = function(){
+  params.scorePlayer = 0;
+  params.scoreComp = 0;
+  params.currentRound = 1;
+  endgame.querySelector("header").innerHTML = ""; 
+  params.progress = []; 
+  tableBody.innerHTML = "";
+  printRound("");
+}
+
+
+var isInputValid = function(input) {
+  return (!isNaN(input) && input !== null && input !== "" && input > 0);
+};
+
+
+var isGameOver = function() {
+  if (params.howManyRounds == params.currentRound) {
+    endRound.innerHTML = "You won the game!";
+    endRound.style.color = "green";
+    disableGame();
+    showModal(endgame);
+    endgame.querySelector("header").innerHTML = "You won the entire game!"; 
+    gameTable();
+  } else if (params.howManyRounds == params.currentRound) {
+    endRound.innerHTML = "You lost the game!";
+    endRound.style.color = "red";
+    disableGame();
+    showModal(endgame);
+    endgame.querySelector("header").innerHTML = "You lost the entire game!"; 
+    gameTable();
+  } else {
+    endRound.innerHTML = "Roll again...";
+    endRound.style.color = "blue";
+    enableGame();
+  }
+};
+
+
+
+// drukuje wyniki rundy ------------
 var printRound = function(text) {
-  document.querySelector("#round div").innerHTML = text;
+  document.querySelector("#round div").innerHTML = params.roundWinner;
   document.querySelector("#score div").innerHTML = params.scorePlayer + " - " + params.scoreComp;
 };
 
 
 
-// generuje ruch kompa
+// Computer's move generator
 var computerMove = function() {
   var move = Math.round(Math.random() * 3);
   if (move === 0) {
@@ -53,7 +110,7 @@ var computerMove = function() {
   }
 };
 
-// porównuje ruch gracza i wygenerowany ruch kompa
+// Compare player and computer moves
 var compareMoves = function(player, comp) {
   params.youPlayed = player;
   params.compPlayed = comp;
@@ -64,104 +121,45 @@ var compareMoves = function(player, comp) {
   ) {
     params.scorePlayer++;
     params.roundWinner = "You won";
-    return "You win";
   } else if (player === comp) {
     params.roundWinner = "Draw";
-    return "Draw";
   } else {
     params.scoreComp++;
     params.roundWinner = "You lost";
-    return "You lose";
-  }
-};
-
-// sprawdza czy gracz podał cyfrę rund do rozegrania
-var inputValidator = function(input) {
-  if (isNaN(input) || input === null || input === "") {
-    return false;
-  } else {
-    return true;
   }
 };
 
 
-// funkcja przycisku start new game
-startbtn.addEventListener("click", function() {
-  if (params.isInProgress) {      // sprawdza czy gra jest in progress
+
+
+// New Game
+startButton.addEventListener("click", function() {
+  if (params.isInProgress) {
     return;
   }
   reset();
-  // pyta o ilość rund i sprawdza wprowadzone dane 
-  params.scoreToWin = window.prompt("How many rounds to win?");
-  if (!inputValidator(params.scoreToWin)) {
-    infoLine.innerHTML = "input must be number";
+  params.howManyRounds = window.prompt("How many rounds do You want to play?");
+  if (!isInputValid(params.howManyRounds)) {
+    infoLine.innerHTML = "input must be number above zero";
     infoLine.style.color = "red";
     return;
   }
-  // drukuje ilość rund
-  infoLine.innerHTML = 'To win the game, You need to win: <strong>' + params.scoreToWin + '</strong> rounds';
+  infoLine.innerHTML = 'You chose to play: <strong>' + params.howManyRounds + '</strong> rounds';
   infoLine.style.color = "black";
   enableGame();  
 });
 
 
-// zeruje wyniki
-function reset(){
-  params.scorePlayer = 0;
-  params.scoreComp = 0;
-  params.currentRound = 1;
-  endgame.querySelector("header").innerHTML = ""; 
-  params.progress = []; 
-  tableStats.innerHTML = "";
-  printRound("");
-}
 
-// wyłącza grę
-function disableGame(){
-  //game.classList.add("hide");
-  moves.forEach(function(element){
-    element.disabled = true;
-  });
-  params.isInProgress = false;
-}
 
-// odblokowuje grę
-function enableGame(){
-  game.classList.remove("hide");
-  moves.forEach(function(element){
-    element.removeAttribute("disabled");
-  });
-  params.isInProgress = true;
-}
 
-// sprawdza czy gra się już skończyła
-var endChecker = function() {
-  if (params.scoreToWin == params.scorePlayer) {
-    endRound.innerHTML = "You won the game!";
-    endRound.style.color = "green";
-    disableGame();
-    showModal(endgame);
-    endgame.querySelector("header").innerHTML = "You won the entire game!"; 
-    gameTable();
-  } else if (params.scoreToWin == params.scoreComp) {
-    endRound.innerHTML = "You lost the game!";
-    endRound.style.color = "red";
-    disableGame();
-    showModal(endgame);
-    endgame.querySelector("header").innerHTML = "You lost the entire game!"; 
-    gameTable();
-  } else {
-    endRound.innerHTML = "Roll again...";
-    endRound.style.color = "blue";
-    params.currentRound++;
-    enableGame();
-  }
-};
+
+
 
 
 
 // pobiera ruch gracza
-moves.forEach(function(element){
+choiceButtons.forEach(function(element){
   element.addEventListener('click', function(){
     playerMove(element.getAttribute('data-move'));
   });
@@ -176,7 +174,8 @@ var playerMove = function(player) {
     result + "<br> you played: " + player + "<br> comp played: " + comp
   );
   updateProgress();
-  endChecker();
+  isGameOver();
+  params.currentRound++;
 };
 
 
@@ -191,22 +190,25 @@ function updateProgress(){
   })
 };
 
-var gameTable = function(){
+
+function createCell(content) {
+  var tableCell = document.createElement("td");
+  tableCell.innerHTML = content;
+  return tableCell;
+}
+
+var gameTable = function() {
   for (var i = 0; i < params.progress.length; i++){
-    tableStats.innerHTML +=
-      "<tr><td>" +
-      params.progress[i].roundNumber +
-      "</td><td>" +
-      params.progress[i].playerChoice +
-      "</td><td>" +
-      params.progress[i].compChoice +
-      "</td><td>" +
-      params.progress[i].roundWon +
-      "</td><td>" +
-      params.progress[i].gameScore +
-      "</td></tr>"
+    var tableRow = document.createElement("tr");
+    tableRow.appendChild(createCell(params.progress[i].roundNumber));
+    tableRow.appendChild(createCell(params.progress[i].playerChoice));
+    tableRow.appendChild(createCell(params.progress[i].compChoice));
+    tableRow.appendChild(createCell(params.progress[i].roundWon));
+    tableRow.appendChild(createCell(params.progress[i].gameScore));
+    tableBody.appendChild(tableRow);
   }
 };
+
 
 // modal
 
